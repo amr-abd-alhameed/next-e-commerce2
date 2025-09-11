@@ -1,14 +1,26 @@
+// export interface ProductsType {
+//     id: number;
+//     name: string;
+//     shortDescription: string;
+//     description: string;
+//     price: number;
+//     sizes: string[];
+//     colors: string[];
+//     images: {
+//         [key: string]: string;
+//     };
+// }
 export interface ProductsType {
-    id: number;
-    name: string;
-    shortDescription: string;
-    description: string;
-    price: number;
-    sizes: string[];
-    colors: string[];
-    images: {
-        [key: string]: string;
-    };
+  id: number;
+  name: string;
+  shortDescription: string;
+  description: string;
+  price: number;
+  sizes: string[];
+  colors: string[];
+  images: {
+    [key: string]: string | undefined;
+  };
 }
 export interface ProductsTypes {
     products: ProductsType[];

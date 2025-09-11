@@ -5,6 +5,8 @@ import { cartItems, steps } from "../components/data";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
+import CardDetailsItem from "./CardDetailsItem";
+import { cardDetailsItem } from "../components/data";
 const CardPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -43,16 +45,13 @@ const CardPage = () => {
         <div className="w-full lg:w-5/12 shadow-lg border border-gray-100 p-8 rounded-lg flex flex-col gap-8">
           <h2 className="font-semibold capitalize">cart details</h2>
           <div className="flex flex-col gap-4">
-            <div className="flex justify-between">
-              <p>subTotal</p>{" "}
-              <p>
-                $
-                {cartItems.reduce(
-                  (acc, item) => acc + item.price * item.quantity,
-                  0
-                )}
-              </p>
-            </div>
+            {cardDetailsItem.map((step, index) => (
+              <CardDetailsItem
+                key={index}
+                cartItems={cartItems}
+                item={step}
+              />
+            ))}
             <button className="w-full bg-gray-800 hover:bg-gray-900 transition-all duration-300 text-white p-2 rounded-lg cursor-pointer capitalize flex items-center justify-center gap-2">
               continue <ArrowRight />
             </button>

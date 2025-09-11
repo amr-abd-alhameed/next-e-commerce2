@@ -274,3 +274,9 @@ export const cartItems = [
     selectedColor: "black",
   },
 ];
+
+export const cardDetailsItem = [
+  { content: "subTotal" },
+  { discount: "10%" },
+  { shippingFee: "shipping Fee" },
+];
