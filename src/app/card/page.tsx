@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { CartItemsType } from "./types";
 import { cartItems, steps } from "../components/data";
 import { useSearchParams } from "next/navigation";
@@ -7,10 +7,13 @@ import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import CardDetailsItem from "./CardDetailsItem";
 import { cardDetailsItem } from "../components/data";
+import ShippingForm from "./ShippingForm";
+import PaymentForm from "./PaymentForm";
 const CardPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const activeStep = parseInt(searchParams.get("step") || "1");
+  const [shippingFrom, setShippingFrom] = useState(null);
   return (
     <div className="flex items-center justify-center gap-8 flex-col mt-12">
       {/*title */}
@@ -40,21 +43,35 @@ const CardPage = () => {
       {/*steps and details */}
       <div className="flex flex-col lg:flex-row gap-16 w-full">
         {/* steps */}
-        <div className="w-full lg:w-7/12 shadow-lg border border-gray-100 p-8 rounded-lg flex flex-col gap-8"></div>
+        <div className="w-full lg:w-7/12 shadow-lg border border-gray-100 p-8 rounded-lg flex flex-col gap-8">
         {/* details */}
+        {activeStep === 1 ? (
+          "products"
+        ) : activeStep === 2 ? (
+          <ShippingForm />
+        ) : activeStep === 3 && shippingFrom ? (
+          <PaymentForm />
+        ) : (
+          <p className="text-sm text-gray-500">please fill in the shipping form</p>
+        )}</div>
         <div className="w-full lg:w-5/12 shadow-lg border border-gray-100 p-8 rounded-lg flex flex-col gap-8">
           <h2 className="font-semibold capitalize">cart details</h2>
           <div className="flex flex-col gap-4">
             {cardDetailsItem.map((step, index) => (
-              <CardDetailsItem
-                key={index}
-                cartItems={cartItems}
-                item={step}
-              />
+              <CardDetailsItem key={index} cartItems={cartItems} item={step} />
             ))}
-            <button className="w-full bg-gray-800 hover:bg-gray-900 transition-all duration-300 text-white p-2 rounded-lg cursor-pointer capitalize flex items-center justify-center gap-2">
-              continue <ArrowRight />
-            </button>
+            {activeStep === 1 && (
+              <button
+                onClick={() => {
+                  router.push(`/card?step=${activeStep + 1}`, {
+                    scroll: false,
+                  });
+                }}
+                className="w-full bg-gray-800 hover:bg-gray-900 transition-all duration-300 text-white p-2 rounded-lg cursor-pointer capitalize flex items-center justify-center gap-2"
+              >
+                continue <ArrowRight />
+              </button>
+            )}
           </div>
         </div>
       </div>
