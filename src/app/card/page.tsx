@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { CartItemsType } from "./types";
+import { CartItemsType, shippingFormInputs } from "./types";
 import { cartItems, steps } from "../components/data";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -14,7 +14,10 @@ const CardPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const activeStep = parseInt(searchParams.get("step") || "1");
-  const [shippingFrom, setShippingFrom] = useState(null);
+  const [shippingFrom, setShippingFrom] = useState<shippingFormInputs | null>(
+    null
+  );
+  console.log(shippingFrom);
   return (
     <div className="flex items-center justify-center gap-8 flex-col mt-12">
       {/*title */}
@@ -90,7 +93,9 @@ const CardPage = () => {
               </div>
             ))
           ) : activeStep === 2 ? (
-            <ShippingForm />
+            <div suppressHydrationWarning>
+              <ShippingForm setShippingFrom={setShippingFrom} />
+            </div>
           ) : activeStep === 3 && shippingFrom ? (
             <PaymentForm />
           ) : (
